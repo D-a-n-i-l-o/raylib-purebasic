@@ -1,6 +1,6 @@
 ﻿<img align="left" src="https://github.com/D-a-n-i-l-o/raylib-purebasic/blob/master/raylib-purebasic.png" width=256>
 
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 # raylib-purebasic
 

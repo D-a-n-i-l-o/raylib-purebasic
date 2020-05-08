@@ -1994,6 +1994,6 @@ Module ray
     EndProcedure
 
 EndModule
-
 ;- ---------- Module End
 ;} ---------- Module End
+DisableExplicit

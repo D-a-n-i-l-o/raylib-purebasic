@@ -28,7 +28,7 @@ Compiled executables use static raylib import libraries.
 
 2. Install libs for PureBasic
 
-    `sudo apt-get install gcc g++ libc6-dev libsdl1.2-dev libgtk-3-dev unixodbc-dev libgnome2-dev libxine2-dev libwebkitgtk-3.0-dev libxxf86vm-dev libwebkitgtk-dev libwebkitgtk-3.0-dev`
+    `sudo apt-get install gcc g++ libc6-dev libsdl1.2-dev libgtk-3-dev unixodbc-dev libgnome2-dev libxine2-dev libxxf86vm-dev libwebkitgtk-dev libwebkitgtk-3.0-dev`
 
 3. Install additional library dependencies for raylib:
 

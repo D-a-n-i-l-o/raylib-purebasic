@@ -993,7 +993,7 @@ DeclareModule ray
             CompilerError "raylib for macOS: processor error"
         CompilerEndIf
         
-        ImportC "-framework IOKit -framework OpenGL"
+        ImportC "-framework AppKit -framework IOKit -framework OpenGL"
         EndImport
         
         ImportC "bin/libraylib_macos.a"

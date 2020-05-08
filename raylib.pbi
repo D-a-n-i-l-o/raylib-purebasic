@@ -83,7 +83,7 @@ DeclareModule ray
    ;#RL_PI = 3.14159265358979323846 ; too many digits
     #RL_PI = 3.1415926535897932385  ; remove last digit and round up
 
-    #RL_MAX_TOUCH_POINTS = 10              ;// Maximum number of touch points supported
+    #MAX_TOUCH_POINTS = 10          ;// Maximum number of touch points supported
 
     #DEG2RAD = #RL_PI/180.0
     #RAD2DEG = 180.0/#RL_PI
@@ -1034,11 +1034,11 @@ DeclareModule ray
         SetClipboardTextRaylib(text.p-utf8)                                   RLAS(SetClipboardText)             ;// Set clipboard text content
     
         ;// Cursor-related functions
-        ShowCursor()                                                          RLAS(rlShowCursor)                 ;// Shows cursor
-        HideCursor()                                                          RLAS(rlHideCursor)                 ;// Hides cursor
-        IsCursorHidden.rl_bool()                                              RLAS(rlIsCursorHidden)             ;// Check if cursor is not visible
-        EnableCursor()                                                        RLAS(rlEnableCursor)               ;// Enables cursor (unlock cursor)
-        DisableCursor()                                                       RLAS(rlDisableCursor)              ;// Disables cursor (lock cursor)
+        ShowCursor()                                                          RLAS(ShowCursor)                 ;// Shows cursor
+        HideCursor()                                                          RLAS(HideCursor)                 ;// Hides cursor
+        IsCursorHidden.rl_bool()                                              RLAS(IsCursorHidden)             ;// Check if cursor is not visible
+        EnableCursor()                                                        RLAS(EnableCursor)               ;// Enables cursor (unlock cursor)
+        DisableCursor()                                                       RLAS(DisableCursor)              ;// Disables cursor (lock cursor)
     
         ;// Drawing-related functions
         ClearBackground(color.rl_ColorLong)                                   RLAS(ClearBackground)              ;// Set background color (framebuffer clear color)
@@ -1161,9 +1161,9 @@ DeclareModule ray
         GetMouseWheelMove.rl_int()                                            RLAS(GetMouseWheelMove)            ;// Returns mouse wheel movement Y
     
         ;// Input-related functions: touch
-        GetTouchX.rl_int()                                                    RLAS(rlGetTouchX)                  ;// Returns touch position X for touch point 0 (relative to screen size)
-        GetTouchY.rl_int()                                                    RLAS(rlGetTouchY)                  ;// Returns touch position Y for touch point 0 (relative to screen size)
-        GetTouchPosition(*out_result.ray::Vector2, index.rl_int)            __PBAS(rlGetTouchPosition)           ;// Returns touch position XY for a touch point index (relative to screen size)
+        GetTouchX.rl_int()                                                    RLAS(GetTouchX)                  ;// Returns touch position X for touch point 0 (relative to screen size)
+        GetTouchY.rl_int()                                                    RLAS(GetTouchY)                  ;// Returns touch position Y for touch point 0 (relative to screen size)
+        GetTouchPosition(*out_result.ray::Vector2, index.rl_int)            __PBAS(GetTouchPosition)           ;// Returns touch position XY for a touch point index (relative to screen size)
     
         ;//------------------------------------------------------------------------------------
         ;// Gestures and Touch Handling Functions (Module: gestures)

@@ -26,3 +26,8 @@ Examples using raylib core platform functionality like window creation, inputs, 
 | 12 | [core_3d_camera_first_person](core/core_3d_camera_first_person.pb) | <img src="core/screenshots/core_3d_camera_first_person.png" alt="core_3d_camera_first_person" width="200"> | ray        |     |
 | 13 | [core_3d_picking](core/core_3d_picking.pb)                         | <img src="core/screenshots/core_3d_picking.png" alt="core_3d_picking" width="200">                         | ray        |     |
 | 14 | [core_world_screen](core/core_world_screen.pb)                     | <img src="core/screenshots/core_world_screen.png" alt="core_world_screen" width="200">                     | ray        |     |
+| 15 | [core_custom_logging](core/core_custom_logging.pb)                 | <img src="core/screenshots/core_custom_logging.png" alt="core_custom_logging" width="200">                 | [Pablo Marcos](https://github.com/pamarcos) |     |
+| 16 | [core_window_letterbox](core/core_window_letterbox.pb)             | <img src="core/screenshots/core_window_letterbox.png" alt="core_window_letterbox" width="200">             | [Anata](https://github.com/anatagawa) |     |
+| 17 | [core_drop_files](core/core_drop_files.pb)                         | <img src="core/screenshots/core_drop_files.png" alt="core_drop_files" width="200">                         | ray        |     |
+| 18 | [core_random_values](core/core_random_values.pb)                   | <img src="core/screenshots/core_random_values.png" alt="core_random_values" width="200">                   | ray        |     |
+| 19 | [core_storage_values](core/core_storage_values.pb)                 | <img src="core/screenshots/core_storage_values.png" alt="core_storage_values" width="200">                 | ray        |     |

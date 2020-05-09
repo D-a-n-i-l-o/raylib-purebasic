@@ -21,3 +21,8 @@ Examples using raylib core platform functionality like window creation, inputs, 
 | 07 | [core_input_gestures](core/core_input_gestures.pb)                 | <img src="core/screenshots/core_input_gestures.png" alt="core_input_gestures" width="200">                 | ray        |    |
 | 08 | [core_2d_camera](core/core_2d_camera.pb)                           | <img src="core/screenshots/core_2d_camera.png" alt="core_2d_camera" width="200">                           | ray        |    |
 | 09 | [core_2d_camera_platformer](core/core_2d_camera_platformer.pb)     | <img src="core/screenshots/core_2d_camera_platformer.png" alt="core_2d_camera_platformer" width="200">     | [avyy](https://github.com/avyy) | ⭐️  |
+| 10 | [core_3d_camera_mode](core/core_3d_camera_mode.pb)                 | <img src="core/screenshots/core_3d_camera_mode.png" alt="core_3d_camera_mode" width="200">                 | ray        |     |
+| 11 | [core_3d_camera_free](core/core_3d_camera_free.pb)                 | <img src="core/screenshots/core_3d_camera_free.png" alt="core_3d_camera_free" width="200">                 | ray        |     |
+| 12 | [core_3d_camera_first_person](core/core_3d_camera_first_person.pb) | <img src="core/screenshots/core_3d_camera_first_person.png" alt="core_3d_camera_first_person" width="200"> | ray        |     |
+| 13 | [core_3d_picking](core/core_3d_picking.pb)                         | <img src="core/screenshots/core_3d_picking.png" alt="core_3d_picking" width="200">                         | ray        |     |
+| 14 | [core_world_screen](core/core_world_screen.pb)                     | <img src="core/screenshots/core_world_screen.png" alt="core_world_screen" width="200">                     | ray        |     |

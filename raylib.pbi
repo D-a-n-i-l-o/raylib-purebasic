@@ -1119,7 +1119,7 @@ DeclareModule ray
     
         ;// Persistent storage management
         SaveStorageValue(position.rl_uint, value.rl_int)                      RLAS(SaveStorageValue)             ;// Save integer value to storage file (to defined position)
-        LoadStorageValue.rl_int(position.rl_uint)                             RLAS(LoadStorageValue)             ;// Load integer value from storage file (from defined posit        ion)
+        LoadStorageValue.rl_int(position.rl_uint)                             RLAS(LoadStorageValue)             ;// Load integer value from storage file (from defined position)
     
         OpenURL(url.p-utf8)                                                   RLAS(OpenURL)                      ;// Open URL with default system browser (if available)
     

@@ -58,3 +58,6 @@ Examples using raylib text functionality, including sprite fonts loading/generat
 | ## | example  | image  | developer  | new |
 |----|----------|--------|:----------:|:---:|
 | 38 | [text_raylib_fonts](text/text_raylib_fonts.pb)         | <img src="text/screenshots/text_raylib_fonts.png" alt="text_raylib_fonts" width="200">         | ray   |     |
+| 39 | [text_font_spritefont](text/text_font_spritefont.pb)   | <img src="text/screenshots/text_font_spritefont.png" alt="text_font_spritefont" width="200">   | ray   |     |
+| 40 | [text_font_filters](text/text_font_filters.pb)         | <img src="text/screenshots/text_font_filters.png" alt="text_font_filters" width="200">         | ray   |     |
+| 41 | [text_font_loading](text/text_font_loading.pb)         | <img src="text/screenshots/text_font_loading.png" alt="text_font_loading" width="200">         | ray   |     |

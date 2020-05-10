@@ -31,3 +31,13 @@ Examples using raylib core platform functionality like window creation, inputs, 
 | 17 | [core_drop_files](core/core_drop_files.pb)                         | <img src="core/screenshots/core_drop_files.png" alt="core_drop_files" width="200">                         | ray        |     |
 | 18 | [core_random_values](core/core_random_values.pb)                   | <img src="core/screenshots/core_random_values.png" alt="core_random_values" width="200">                   | ray        |     |
 | 19 | [core_storage_values](core/core_storage_values.pb)                 | <img src="core/screenshots/core_storage_values.png" alt="core_storage_values" width="200">                 | ray        |     |
+| 20 | [core_vr_simulator](core/core_vr_simulator.pb)                     | <img src="core/screenshots/core_vr_simulator.png" alt="core_vr_simulator" width="200">                     | ray        |     |
+| 21 | [core_loading_thread](core/core_loading_thread.pb)                 | <img src="core/screenshots/core_loading_thread.png" alt="core_loading_thread" width="200">                 | ray        | ⭐️  |
+| 22 | [core_scissor_test](core/core_scissor_test.pb)                     | <img src="core/screenshots/core_scissor_test.png" alt="core_scissor_test" width="200">                     | [Chris Dill](https://github.com/MysteriousSpace)  | ⭐️  |
+
+### Category: shapes
+
+Examples using raylib shapes drawing functionality, provided by raylib `shapes` module.
+
+| ## | example  | image  | developer  | new |
+|----|----------|--------|:----------:|:---:|

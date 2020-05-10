@@ -1268,9 +1268,9 @@ DeclareModule ray
                         color.rl_ColorLong)                                   RLAS(DrawTriangleFan)              ;// Draw a triangle fan defined by points (first vertex is the center)
         DrawTriangleStrip(*in_pointsArray.ray::Vector2, pointsCount.rl_int,
                           color.rl_ColorLong)                                 RLAS(DrawTriangleStrip)            ;// Draw a triangle strip defined by points
-        DrawPoly(*in_center.ray::Vector2, sides.rl_int, radiusrl_float,
+        DrawPoly(*in_center.ray::Vector2, sides.rl_int, radius.rl_float,
                  rotation.rl_float, color.rl_ColorLong)                     __PBAS(DrawPoly)                     ;// Draw a regular polygon (Vector version)
-        DrawPolyLines(*in_center.ray::Vector2, sides.rl_int, radiusrl_float,
+        DrawPolyLines(*in_center.ray::Vector2, sides.rl_int, radius.rl_float,
                       rotation.rl_float, color.rl_ColorLong)                __PBAS(DrawPolyLines)                ;// Draw a polygon outline of n sides
     
         ;// Basic shapes collision detection functions

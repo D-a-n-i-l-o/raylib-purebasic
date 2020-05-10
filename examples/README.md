@@ -56,4 +56,5 @@ Examples using raylib shapes drawing functionality, provided by raylib `shapes` 
 Examples using raylib text functionality, including sprite fonts loading/generation and text drawing, provided by raylib `text` module.
 
 | ## | example  | image  | developer  | new |
+|----|----------|--------|:----------:|:---:|
 | 38 | [text_raylib_fonts](text/text_raylib_fonts.pb)         | <img src="text/screenshots/text_raylib_fonts.png" alt="text_raylib_fonts" width="200">         | ray   |     |

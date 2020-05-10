@@ -41,3 +41,18 @@ Examples using raylib shapes drawing functionality, provided by raylib `shapes` 
 
 | ## | example  | image  | developer  | new |
 |----|----------|--------|:----------:|:---:|
+| 23 | [shapes_basic_shapes](shapes/shapes_basic_shapes.pb)               | <img src="shapes/screenshots/shapes_basic_shapes.png" alt="shapes_basic_shapes" width="200">                       | ray     |     |
+| 24 | [shapes_bouncing_ball](shapes/shapes_bouncing_ball.pb)             | <img src="shapes/screenshots/shapes_bouncing_ball.png" alt="shapes_bouncing_ball" width="200">                     | ray     | ⭐️  |
+| 25 | [shapes_colors_palette](shapes/shapes_colors_palette.pb)           | <img src="shapes/screenshots/shapes_colors_palette.png" alt="shapes_colors_palette" width="200">                   | ray     |     |
+| 26 | [shapes_logo_raylib](shapes/shapes_logo_raylib.pb)                 | <img src="shapes/screenshots/shapes_logo_raylib.png" alt="shapes_logo_raylib" width="200">                         | ray     |     |
+| 27 | [shapes_logo_raylib_anim](shapes/shapes_logo_raylib_anim.pb)       | <img src="shapes/screenshots/shapes_logo_raylib_anim.png" alt="shapes_logo_raylib_anim" width="200">               | ray     |     |
+| 28 | [shapes_rectangle_scaling](shapes/shapes_rectangle_scaling.pb)     | <img src="shapes/screenshots/shapes_rectangle_scaling.png" alt="shapes_rectangle_scaling" width="200">             | [Vlad Adrian](https://github.com/demizdor) |     |
+| 29 | [shapes_lines_bezier](shapes/shapes_lines_bezier.pb)               | <img src="shapes/screenshots/shapes_lines_bezier.png" alt="shapes_lines_bezier" width="200">                       | ray     |     |
+| 30 | [shapes_collision_area](shapes/shapes_collision_area.pb)           | <img src="shapes/screenshots/shapes_collision_area.png" alt="shapes_collision_area" width="200">                   | ray     | ⭐️  |
+| 31 | [shapes_following_eyes](shapes/shapes_following_eyes.pb)           | <img src="shapes/screenshots/shapes_following_eyes.png" alt="shapes_following_eyes" width="200">                   | ray     | ⭐️  |
+
+### Category: text
+
+Examples using raylib text functionality, including sprite fonts loading/generation and text drawing, provided by raylib `text` module.
+
+| ## | example  | image  | developer  | new |

@@ -73,3 +73,27 @@ Examples using raylib textures functionality, including image/textures loading/g
 
 | ## | example  | image  | developer  | new |
 |----|----------|--------|:----------:|:---:|
+| 48 | [textures_logo_raylib](textures/textures_logo_raylib.pb)                   | <img src="textures/screenshots/textures_logo_raylib.png" alt="textures_logo_raylib" width="200">                   | ray                                              |        |
+| 49 | [textures_rectangle](textures/textures_rectangle.pb)                       | <img src="textures/screenshots/textures_rectangle.png" alt="textures_rectangle" width="200">                       | ray                                              |        |
+| 50 | [textures_srcrec_dstrec](textures/textures_srcrec_dstrec.pb)               | <img src="textures/screenshots/textures_srcrec_dstrec.png" alt="textures_srcrec_dstrec" width="200">               | ray                                              |        |
+| 51 | [textures_image_drawing](textures/textures_image_drawing.pb)               | <img src="textures/screenshots/textures_image_drawing.png" alt="textures_image_drawing" width="200">               | ray                                              |        |
+| 52 | [textures_image_generation](textures/textures_image_generation.pb)         | <img src="textures/screenshots/textures_image_generation.png" alt="textures_image_generation" width="200">         | ray                                              |        |
+| 53 | [textures_image_loading](textures/textures_image_loading.pb)               | <img src="textures/screenshots/textures_image_loading.png" alt="textures_image_loading" width="200">               | ray                                              |        |
+| 54 | [textures_image_processing](textures/textures_image_processing.pb)         | <img src="textures/screenshots/textures_image_processing.png" alt="textures_image_processing" width="200">         | ray                                              |        |
+| 55 | [textures_image_text](textures/textures_image_text.pb)                     | <img src="textures/screenshots/textures_image_text.png" alt="textures_image_text" width="200">                     | ray                                              | ⭐️     |
+| 56 | [textures_to_image](textures/textures_to_image.pb)                         | <img src="textures/screenshots/textures_to_image.png" alt="textures_to_image" width="200">                         | ray                                              |        |
+| 57 | [textures_raw_data](textures/textures_raw_data.pb)                         | <img src="textures/screenshots/textures_raw_data.png" alt="textures_raw_data" width="200">                         | ray                                              |        |
+| 58 | [textures_particles_blending](textures/textures_particles_blending.pb)     | <img src="textures/screenshots/textures_particles_blending.png" alt="textures_particles_blending" width="200">     | ray                                              |        |
+| 59 | [textures_npatch_drawing](textures/textures_npatch_drawing.pb)             | <img src="textures/screenshots/textures_npatch_drawing.png" alt="textures_npatch_drawing" width="200">             | [Jorge A. Gomes](https://github.com/overdev)     |        |
+| 60 | [textures_background_scrolling](textures/textures_background_scrolling.pb) | <img src="textures/screenshots/textures_background_scrolling.png" alt="textures_background_scrolling" width="200"> | ray                                              | ⭐️     |
+| 61 | [textures_sprite_button](textures/textures_sprite_button.pb)               | <img src="textures/screenshots/textures_sprite_button.png" alt="textures_sprite_button" width="200">               | ray                                              | ⭐️     |
+| 62 | [textures_sprite_explosion](textures/textures_sprite_explosion.pb)         | <img src="textures/screenshots/textures_sprite_explosion.png" alt="textures_sprite_explosion" width="200">         | ray                                              | ⭐️     |
+| 63 | [textures_bunnymark](textures/textures_bunnymark.pb)                       | <img src="textures/screenshots/textures_bunnymark.png" alt="textures_bunnymark" width="200">                       | ray                                              | ⭐️     |
+| 64 | [textures_mouse_painting](textures/textures_mouse_painting.pb)             | <img src="textures/screenshots/textures_mouse_painting.png" alt="textures_mouse_painting" width="200">             | [Chris Dill](https://github.com/MysteriousSpace) | ⭐️     |
+
+### Category: models
+
+Examples using raylib models functionality, including models loading/generation and drawing, provided by raylib `models` module.
+
+| ## | example  | image  | developer  | new |
+|----|----------|--------|:----------:|:---:|

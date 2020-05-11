@@ -61,3 +61,15 @@ Examples using raylib text functionality, including sprite fonts loading/generat
 | 39 | [text_font_spritefont](text/text_font_spritefont.pb)   | <img src="text/screenshots/text_font_spritefont.png" alt="text_font_spritefont" width="200">   | ray   |     |
 | 40 | [text_font_filters](text/text_font_filters.pb)         | <img src="text/screenshots/text_font_filters.png" alt="text_font_filters" width="200">         | ray   |     |
 | 41 | [text_font_loading](text/text_font_loading.pb)         | <img src="text/screenshots/text_font_loading.png" alt="text_font_loading" width="200">         | ray   |     |
+| 42 | [text_font_sdf](text/text_font_sdf.pb)                 | <img src="text/screenshots/text_font_sdf.png" alt="text_font_sdf" width="200">                 | ray   | ⭐️  |
+| 43 | FormatText() not applicable/required with PureBasic    |                                                                                                | ray   |     |
+| 44 | [text_input_box](text/text_input_box.pb)               | <img src="text/screenshots/text_input_box.png" alt="text_input_box" width="200">               | ray   |     |
+| 45 | [text_writing_anim](text/text_writing_anim.pb)         | <img src="text/screenshots/text_writing_anim.png" alt="text_writing_anim" width="200">         | ray   |     |
+| 46 | [text_rectangle_bounds](text/text_rectangle_bounds.pb) | <img src="text/screenshots/text_rectangle_bounds.png" alt="text_rectangle_bounds" width="200"> | [Vlad Adrian](https://github.com/demizdor) |     |
+
+### Category: textures
+
+Examples using raylib textures functionality, including image/textures loading/generation and drawing, provided by raylib `textures` module.
+
+| ## | example  | image  | developer  | new |
+|----|----------|--------|:----------:|:---:|

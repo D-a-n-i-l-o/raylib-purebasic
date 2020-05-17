@@ -97,3 +97,13 @@ Examples using raylib models functionality, including models loading/generation 
 
 | ## | example  | image  | developer  | new |
 |----|----------|--------|:----------:|:---:|
+
+### Category: gui
+
+Examples using `raygui` functionality.
+
+| ## | example  | image  | developer  | new |
+|----|----------|--------|:----------:|:---:|
+|    | [raygui_portable_window](raygui/raygui_portable_window.pb)             | <img src="raygui/screenshots/raygui_portable_window.png" alt="textures_mouse_painting" width="200">             | ray    |     |
+|    | [raygui_buttons](raygui/raygui_buttons.pb)                             | <img src="raygui/screenshots/raygui_buttons.png" alt="textures_mouse_painting" width="200">                      | Danilo |     |
+|    | [raygui_frames](raygui/raygui_frames.pb)                               | <img src="raygui/screenshots/raygui_frames.png" alt="textures_mouse_painting" width="200">                     | Danilo |     |

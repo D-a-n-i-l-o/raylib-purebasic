@@ -158,6 +158,8 @@ DeclareModule raygui
     #GROUPBOX_LINE_THICK        =  1
     #GROUPBOX_TEXT_PADDING      = 10
     #LINE_TEXT_PADDING          = 10
+    #TOGGLEGROUP_MAX_ELEMENTS   = 32
+
 
     Macro TEXT_VALIGN_PIXEL_OFFSET(h)
         (Int(h)%2)     ; Vertical alignment for pixel perfect
@@ -388,20 +390,31 @@ DeclareModule raygui
     Declare   GuiLabel(*in_bounds.Rectangle, text.s)            ; Label control, shows text
     Declare.i GuiButton(*in_bounds.Rectangle, text.s)           ; Button control, returns true when clicked
     Declare.i GuiLabelButton(*in_bounds.Rectangle, text.s)      ; Label button control, show true when clicked
-    ;Declare bool GuiImageButton(Rectangle bounds, const char *text, Texture2D texture)                   ; Image button control, returns true when clicked
-    ;Declare bool GuiImageButtonEx(Rectangle bounds, const char *text, Texture2D texture, Rectangle texSource)    ; Image button extended control, returns true when clicked
-    ;Declare bool GuiToggle(Rectangle bounds, const char *text, bool active)                              ; Toggle Button control, returns true when active
-    ;Declare int GuiToggleGroup(Rectangle bounds, const char *text, int active)                           ; Toggle Group control, returns active toggle index
-    ;Declare bool GuiCheckBox(Rectangle bounds, const char *text, bool checked)                           ; Check Box control, returns true when active
+    Declare.i GuiImageButton(*in_bounds.Rectangle, text.s,
+                             *in_texture.Texture2D)             ; Image button control, returns true when clicked
+    Declare.i GuiImageButtonEx(*in_bounds.Rectangle, text.s,
+                               *in_texture.Texture2D,
+                               *in_texSource.Rectangle)         ; Image button extended control, returns true when clicked
+    Declare.i GuiToggle(*in_bounds.Rectangle, text.s, active.i) ; Toggle Button control, returns true when active
+    Declare.i GuiToggleGroup(*in_bounds.Rectangle, text.s,
+                             active.i)                          ; Toggle Group control, returns active toggle index
+    Declare.i GuiCheckBox(*in_bounds.Rectangle, text.s,
+                          checked.i)                            ; Check Box control, returns true when active
     ;Declare int GuiComboBox(Rectangle bounds, const char *text, int active)                              ; Combo Box control, returns selected item index
     ;Declare bool GuiDropdownBox(Rectangle bounds, const char *text, int *active, bool editMode)          ; Dropdown Box control, returns selected item
     ;Declare bool GuiSpinner(Rectangle bounds, const char *text, int *value, int minValue, int maxValue, bool editMode)     ; Spinner control, returns selected value
     ;Declare bool GuiValueBox(Rectangle bounds, const char *text, int *value, int minValue, int maxValue, bool editMode)    ; Value Box control, updates input text with numbers
     ;Declare bool GuiTextBox(Rectangle bounds, char *text, int textSize, bool editMode)                   ; Text Box control, updates input text
     ;Declare bool GuiTextBoxMulti(Rectangle bounds, char *text, int textSize, bool editMode)              ; Text Box control with multiple lines
-    ;Declare float GuiSlider(Rectangle bounds, const char *textLeft, const char *textRight, float value, float minValue, float maxValue)       ; Slider control, returns selected value
-    ;Declare float GuiSliderBar(Rectangle bounds, const char *textLeft, const char *textRight, float value, float minValue, float maxValue)    ; Slider Bar control, returns selected value
-    ;Declare float GuiProgressBar(Rectangle bounds, const char *textLeft, const char *textRight, float value, float minValue, float maxValue)  ; Progress Bar control, shows current progress value
+    Declare.f GuiSlider(*in_bounds.Rectangle,
+                        textLeft.s, textRight.s,
+                        value.f, minValue.f, maxValue.f)        ; Slider control, returns selected value
+    Declare.f GuiSliderBar(*in_bounds.Rectangle,
+                           textLeft.s, textRight.s,
+                           value.f, minValue.f, maxValue.f)     ; Slider Bar control, returns selected value
+    Declare.f GuiProgressBar(*in_bounds.Rectangle,
+                             textLeft.s, textRight.s,
+                             value.f, minValue.f, maxValue.f)   ; Progress Bar control, shows current progress value
     Declare  GuiStatusBar(*in_bounds.Rectangle, text.s)         ; Status Bar control, shows info text
     ;Declare  GuiDummyRec(Rectangle bounds, const char *text)                                         ; Dummy control for placeholders
     ;Declare int GuiScrollBar(Rectangle bounds, int value, int minValue, int maxValue)                    ; Scroll Bar control
@@ -878,6 +891,428 @@ Module raygui
 
         ProcedureReturn pressed
     EndProcedure
+
+
+    ;// Image button control, returns true when clicked
+    Procedure.i GuiImageButton(*in_bounds.Rectangle, text.s, *in_texture.Texture2D)
+        If Not *in_bounds Or Not *in_texture
+            ProcedureReturn #False
+        EndIf
+        Protected rect.Rectangle
+        InitRectangle(@rect, 0, 0, *in_texture\width, *in_texture\height)
+        ProcedureReturn GuiImageButtonEx(*in_bounds, text, *in_texture, @rect)
+    EndProcedure
+
+    ;// Image button control, returns true when clicked
+    Procedure.i GuiImageButtonEx(*in_bounds.Rectangle, text.s, *in_texture.Texture2D, *in_texSource.Rectangle)
+        If Not *in_bounds Or Not *in_texture Or Not *in_texSource
+            ProcedureReturn #False
+        EndIf
+
+        Protected state = guiState
+        Protected clicked = #False
+
+        ; Update control
+        ;>-------------------------------------------------------------------
+        If state <> #GUI_STATE_DISABLED And Not guiLocked
+            Protected mousePoint.Vector2
+            GetMousePosition(@mousePoint)
+
+            ; Check button state
+            If CheckCollisionPointRec(@mousePoint, *in_bounds)
+                If IsMouseButtonDown(#MOUSE_LEFT_BUTTON)
+                    state = #GUI_STATE_PRESSED
+                ElseIf IsMouseButtonReleased(#MOUSE_LEFT_BUTTON)
+                    clicked = #True
+                Else
+                    state = #GUI_STATE_FOCUSED
+                EndIf
+            EndIf
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ; Draw control
+        ;>-------------------------------------------------------------------
+        GuiDrawRectangle(*in_bounds, GuiGetStyle(#BUTTON, #BORDER_WIDTH),
+                         Fade(GetColor(GuiGetStyle(#BUTTON, #BORDER + (state*3))), guiAlpha),
+                         Fade(GetColor(GuiGetStyle(#BUTTON, #BASE   + (state*3))), guiAlpha))
+
+        If text <> ""
+            Protected rect.Rectangle
+            GetTextBounds(@rect, #BUTTON, *in_bounds)
+            GuiDrawText(text, @rect, GuiGetStyle(#BUTTON, #TEXT_ALIGNMENT),
+                        Fade(GetColor(GuiGetStyle(#BUTTON, #TEXT + (state*3))), guiAlpha))
+        EndIf
+        If *in_texture\id > 0
+            Protected vec.Vector2
+            InitVector2(@vec, *in_bounds\x + *in_bounds\width/2 - *in_texSource\width/2, *in_bounds\y + *in_bounds\height/2 - *in_texSource\height/2)
+            DrawTextureRec(*in_texture, *in_texSource, @vec, Fade(GetColor(GuiGetStyle(#BUTTON, #TEXT + (state*3))), guiAlpha))
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ProcedureReturn clicked
+    EndProcedure
+
+
+    ; Toggle Button control, returns true when active
+    Procedure.i GuiToggle(*in_bounds.Rectangle, text.s, active.i)
+        If Not *in_bounds : ProcedureReturn #False : EndIf
+
+        Protected state = guiState
+        Protected rect.Rectangle
+
+        ; Update control
+        ;>-------------------------------------------------------------------
+        If state <> #GUI_STATE_DISABLED And Not guiLocked
+            Protected mousePoint.Vector2
+            GetMousePosition(@mousePoint)
+
+            ; Check toggle button state
+            If CheckCollisionPointRec(@mousePoint, *in_bounds)
+                If IsMouseButtonDown(#MOUSE_LEFT_BUTTON)
+                    state = #GUI_STATE_PRESSED
+                ElseIf IsMouseButtonReleased(#MOUSE_LEFT_BUTTON)
+                    state = #GUI_STATE_NORMAL
+                    active ! 1
+                Else
+                    state = #GUI_STATE_FOCUSED
+                EndIf
+            EndIf
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ; Draw control
+        ;>-------------------------------------------------------------------
+        If state = #GUI_STATE_NORMAL
+            Protected color1, color2, color3
+            If active
+                color1 = #BORDER_COLOR_PRESSED
+                color2 = #BASE_COLOR_PRESSED
+                color3 = #TEXT_COLOR_PRESSED
+            Else
+                color1 = #BORDER + state*3
+                color2 = #BASE   + state*3
+                color3 = #TEXT   + state*3
+            EndIf
+            GuiDrawRectangle(*in_bounds, GuiGetStyle(#TOGGLE, #BORDER_WIDTH),
+                             Fade(GetColor(GuiGetStyle(#TOGGLE, color1)), guiAlpha), Fade(GetColor(GuiGetStyle(#TOGGLE, color2)), guiAlpha))
+            GetTextBounds(@rect, #TOGGLE, *in_bounds)
+            GuiDrawText(text, @rect, GuiGetStyle(#TOGGLE, #TEXT_ALIGNMENT),
+                        Fade(GetColor(GuiGetStyle(#TOGGLE, color3)), guiAlpha))
+        Else
+            GuiDrawRectangle(*in_bounds, GuiGetStyle(#TOGGLE, #BORDER_WIDTH),
+                             Fade(GetColor(GuiGetStyle(#TOGGLE, #BORDER + state*3)), guiAlpha),
+                             Fade(GetColor(GuiGetStyle(#TOGGLE, #BASE   + state*3)), guiAlpha))
+            GetTextBounds(@rect, #TOGGLE, *in_bounds)
+            GuiDrawText(text, @rect, GuiGetStyle(#TOGGLE, #TEXT_ALIGNMENT),
+                        Fade(GetColor(GuiGetStyle(#TOGGLE, #TEXT + state*3)), guiAlpha))
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ProcedureReturn active
+    EndProcedure
+
+
+    ; Toggle Group control, returns toggled button index
+    Procedure.i GuiToggleGroup(*in_bounds.Rectangle, text.s, active.i)
+        If Not *in_bounds Or text="" : ProcedureReturn #False : EndIf
+        
+        Protected currentBounds.Rectangle
+        InitRectangle(@currentBounds, *in_bounds\x, *in_bounds\y, *in_bounds\width, *in_bounds\height)
+        Protected currentElement = 1
+        Protected currentText.s
+        Protected *charPointer.Character = @text
+        
+        Repeat
+            Select *charPointer\c
+                Case 0, 10
+                    If currentElement = active
+                        GuiToggle(@currentBounds, currentText, #True)
+                    ElseIf GuiToggle(@currentBounds, currentText, #False) = #True
+                        active = currentElement
+                    EndIf
+                    currentText = "" : currentElement + 1
+                    currentBounds\x + (*in_bounds\width + GuiGetStyle(#TOGGLE, #GROUP_PADDING))
+                    If *charPointer\c = 0
+                        Break
+                    EndIf
+                Case 13
+                    If currentElement = active
+                        GuiToggle(@currentBounds, currentText, #True)
+                    ElseIf GuiToggle(@currentBounds, currentText, #False) = #True
+                        active = currentElement
+                    EndIf
+                    currentText = "" : currentElement + 1
+                    currentBounds\x = *in_bounds\x
+                    currentBounds\y + *in_bounds\height + GuiGetStyle(#TOGGLE, #GROUP_PADDING)
+                Default
+                    currentText + Chr(*charPointer\c)
+            EndSelect
+            *charPointer + SizeOf(Character)
+        ForEver
+
+        ProcedureReturn active
+    EndProcedure
+
+
+    ; Check Box control, returns true when active
+    Procedure.i GuiCheckBox(*in_bounds.Rectangle, text.s, checked.i)
+        If Not *in_bounds : ProcedureReturn #False : EndIf
+
+        Protected state = guiState
+
+        Protected textBounds.Rectangle
+
+        If text
+            textBounds\width = GetTextWidth(text)
+            textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
+            textBounds\x = *in_bounds\x + *in_bounds\width + GuiGetStyle(#CHECKBOX, #TEXT_PADDING)
+            textBounds\y = *in_bounds\y + *in_bounds\height/2 - GuiGetStyle(#DEFAULT, #TEXT_SIZE)/2
+            If GuiGetStyle(#CHECKBOX, #TEXT_ALIGNMENT) = #GUI_TEXT_ALIGN_LEFT
+                textBounds\x = *in_bounds\x - textBounds\width - GuiGetStyle(#CHECKBOX, #TEXT_PADDING)
+            EndIf
+        EndIf
+
+        ; Update control
+        ;>-------------------------------------------------------------------
+        If state <> #GUI_STATE_DISABLED And Not guiLocked
+            Protected mousePoint.Vector2
+            GetMousePosition(@mousePoint)
+
+            Protected totalBounds.Rectangle
+            InitRectangle(@totalBounds, 0, *in_bounds\y,
+                          *in_bounds\width + textBounds\width + GuiGetStyle(#CHECKBOX, #TEXT_PADDING),
+                          *in_bounds\height)
+            If GuiGetStyle(#CHECKBOX, #TEXT_ALIGNMENT) = #GUI_TEXT_ALIGN_LEFT
+                totalBounds\x = textBounds\x
+            Else
+                totalBounds\x = *in_bounds\x
+            EndIf
+
+            ; Check checkbox state
+            If CheckCollisionPointRec(@mousePoint, @totalBounds)
+                If IsMouseButtonDown(#MOUSE_LEFT_BUTTON)
+                    state = #GUI_STATE_PRESSED
+                Else
+                    state = #GUI_STATE_FOCUSED
+                EndIf
+
+                If IsMouseButtonReleased(#MOUSE_LEFT_BUTTON)
+                    checked ! 1
+                EndIf
+            EndIf
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ; Draw control
+        ;>-------------------------------------------------------------------
+        GuiDrawRectangle(*in_bounds, GuiGetStyle(#CHECKBOX, #BORDER_WIDTH),
+                         Fade(GetColor(GuiGetStyle(#CHECKBOX, #BORDER + (state*3))), guiAlpha), #COLOR_BLANK)
+
+        If checked
+            Protected check.Rectangle
+            InitRectangle(@check,
+                          *in_bounds\x + GuiGetStyle(#CHECKBOX, #BORDER_WIDTH) + GuiGetStyle(#CHECKBOX, #CHECK_PADDING),
+                          *in_bounds\y + GuiGetStyle(#CHECKBOX, #BORDER_WIDTH) + GuiGetStyle(#CHECKBOX, #CHECK_PADDING),
+                          *in_bounds\width  - 2*(GuiGetStyle(#CHECKBOX, #BORDER_WIDTH) + GuiGetStyle(#CHECKBOX, #CHECK_PADDING)),
+                          *in_bounds\height - 2*(GuiGetStyle(#CHECKBOX, #BORDER_WIDTH) + GuiGetStyle(#CHECKBOX, #CHECK_PADDING)) )
+            GuiDrawRectangle(@check, 0, #COLOR_BLANK, Fade(GetColor(GuiGetStyle(#CHECKBOX, #TEXT + state*3)), guiAlpha))
+        EndIf
+
+        If text
+            Protected _align
+            If GuiGetStyle(#CHECKBOX, #TEXT_ALIGNMENT) = #GUI_TEXT_ALIGN_RIGHT
+                _align = #GUI_TEXT_ALIGN_LEFT
+            Else
+                _align = #GUI_TEXT_ALIGN_RIGHT
+            EndIf
+            GuiDrawText(text, @textBounds, _align, Fade(GetColor(GuiGetStyle(#LABEL, #TEXT + (state*3))), guiAlpha))
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ProcedureReturn checked
+    EndProcedure
+
+
+    ; Slider control with pro parameters
+    ; NOTE: Other GuiSlider*() controls use this one
+    Procedure.f GuiSliderPro(*in_bounds.Rectangle, textLeft.s, textRight.s, value.f, minValue.f, maxValue.f, sliderWidth.i)
+        If Not *in_bounds : ProcedureReturn 0.0 : EndIf
+
+        Protected state = guiState
+        Protected sliderValue = (((value - minValue)/(maxValue - minValue))*(*in_bounds\width - 2*GuiGetStyle(#SLIDER, #BORDER_WIDTH)))
+
+        Protected slider.Rectangle
+        InitRectangle(@slider, *in_bounds\x, *in_bounds\y + GuiGetStyle(#SLIDER, #BORDER_WIDTH) + GuiGetStyle(#SLIDER, #SLIDER_PADDING),
+                               0, *in_bounds\height - 2*GuiGetStyle(#SLIDER, #BORDER_WIDTH) - 2*GuiGetStyle(#SLIDER, #SLIDER_PADDING) )
+
+        If sliderWidth > 0      ; Slider
+            slider\x + (sliderValue - sliderWidth/2)
+            slider\width = sliderWidth
+        ElseIf sliderWidth = 0  ; SliderBar
+            slider\x + GuiGetStyle(#SLIDER, #BORDER_WIDTH)
+            slider\width = sliderValue
+        EndIf
+
+        ; Update control
+        ;>-------------------------------------------------------------------
+        If state <> #GUI_STATE_DISABLED And Not guiLocked
+            Protected mousePoint.Vector2
+            GetMousePosition(@mousePoint)
+
+            If CheckCollisionPointRec(@mousePoint, *in_bounds)
+                If IsMouseButtonDown(#MOUSE_LEFT_BUTTON)
+                    state = #GUI_STATE_PRESSED
+
+                    ; Get equivalent value and slider position from mousePoint.x
+                    value = ((maxValue - minValue)*(mousePoint\x - (*in_bounds\x + sliderWidth/2)))/(*in_bounds\width - sliderWidth) + minValue
+
+                    If sliderWidth > 0
+                        slider\x = mousePoint\x - slider\width/2    ; Slider
+                    ElseIf sliderWidth = 0
+                        slider\width = sliderValue                  ; SliderBar
+                    EndIf
+                Else
+                    state = #GUI_STATE_FOCUSED
+                EndIf
+            EndIf
+
+            If value > maxValue
+                value = maxValue
+            ElseIf value < minValue
+                value = minValue
+            EndIf
+        EndIf
+
+        ; Bar limits check
+        If sliderWidth > 0          ; Slider
+            If slider\x <= (*in_bounds\x + GuiGetStyle(#SLIDER, #BORDER_WIDTH))
+                slider\x = *in_bounds\x + GuiGetStyle(#SLIDER, #BORDER_WIDTH)
+            ElseIf (slider\x + slider\width) >= (*in_bounds\x + *in_bounds\width)
+                slider\x = *in_bounds\x + *in_bounds\width - slider\width - GuiGetStyle(#SLIDER, #BORDER_WIDTH)
+            EndIf
+        ElseIf sliderWidth = 0      ; SliderBar
+            If slider\width > *in_bounds\width
+                slider\width = *in_bounds\width - 2*GuiGetStyle(#SLIDER, #BORDER_WIDTH)
+            EndIf
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ; Draw control
+        ;>-------------------------------------------------------------------
+        Protected colorState
+        If state <> #GUI_STATE_DISABLED
+            colorState = #BASE_COLOR_NORMAL
+        Else
+            colorState = #BASE_COLOR_DISABLED
+        EndIf
+        GuiDrawRectangle(*in_bounds, GuiGetStyle(#SLIDER, #BORDER_WIDTH),
+                         Fade(GetColor(GuiGetStyle(#SLIDER, #BORDER + (state*3))), guiAlpha),
+                         Fade(GetColor(GuiGetStyle(SLIDER, colorState)), guiAlpha))
+
+        ; Draw slider internal bar (depends on state)
+        If state = #GUI_STATE_NORMAL Or state = #GUI_STATE_PRESSED
+            GuiDrawRectangle(@slider, 0, #COLOR_BLANK, Fade(GetColor(GuiGetStyle(#SLIDER, #BASE_COLOR_PRESSED)), guiAlpha))
+        ElseIf state = #GUI_STATE_FOCUSED
+            GuiDrawRectangle(@slider, 0, #COLOR_BLANK, Fade(GetColor(GuiGetStyle(#SLIDER, #TEXT_COLOR_FOCUSED)), guiAlpha))
+        EndIf
+
+        Protected textBounds.Rectangle
+
+        ; Draw left/right text if provided
+        If textLeft
+            textBounds\width  = GetTextWidth(textLeft)              ; TODO: Consider text icon
+            textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
+            textBounds\x = *in_bounds\x - textBounds\width - GuiGetStyle(#SLIDER, #TEXT_PADDING)
+            textBounds\y = *in_bounds\y + *in_bounds\height/2 - GuiGetStyle(#DEFAULT, #TEXT_SIZE)/2
+
+            GuiDrawText(textLeft, @textBounds, #GUI_TEXT_ALIGN_RIGHT,
+                        Fade(GetColor(GuiGetStyle(#SLIDER, #TEXT + (state*3))), guiAlpha))
+        EndIf
+
+        If textRight
+            textBounds\width  = GetTextWidth(textRight)             ; TODO: Consider text icon
+            textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
+            textBounds\x = *in_bounds\x + *in_bounds\width + GuiGetStyle(#SLIDER, #TEXT_PADDING)
+            textBounds\y = *in_bounds\y + *in_bounds\height/2 - GuiGetStyle(#DEFAULT, #TEXT_SIZE)/2
+
+            GuiDrawText(textRight, @textBounds, #GUI_TEXT_ALIGN_LEFT,
+                        Fade(GetColor(GuiGetStyle(#SLIDER, #TEXT + (state*3))), guiAlpha))
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ProcedureReturn value
+    EndProcedure
+
+    ; Slider control extended, returns selected value and has text
+    Procedure.f GuiSlider(*in_bounds.Rectangle, textLeft.s, textRight.s, value.f, minValue.f, maxValue.f)
+        ProcedureReturn GuiSliderPro(*in_bounds, textLeft, textRight, value, minValue, maxValue, GuiGetStyle(#SLIDER, #SLIDER_WIDTH))
+    EndProcedure
+
+    ; Slider Bar control extended, returns selected value
+    Procedure.f GuiSliderBar(*in_bounds.Rectangle, textLeft.s, textRight.s, value.f, minValue.f, maxValue.f)
+        ProcedureReturn GuiSliderPro(*in_bounds, textLeft, textRight, value, minValue, maxValue, 0)
+    EndProcedure
+
+
+    ; Progress Bar control extended, shows current progress value
+    Procedure.f GuiProgressBar(*in_bounds.Rectangle, textLeft.s, textRight.s, value.f, minValue.f, maxValue.f)
+        Protected state = guiState
+
+        Protected progress.Rectangle
+        InitRectangle(@progress,
+                      *in_bounds\x + GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH),
+                      *in_bounds\y + GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH) + GuiGetStyle(#PROGRESSBAR, #PROGRESS_PADDING),
+                      0,
+                      *in_bounds\height - 2*GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH) - 2*GuiGetStyle(#PROGRESSBAR, #PROGRESS_PADDING) )
+
+        ; Update control
+        ;>-------------------------------------------------------------------
+        If state <> #GUI_STATE_DISABLED
+            progress\width = (value/(maxValue - minValue)*(*in_bounds\width - 2*GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH)))
+        EndIf
+        ;>-------------------------------------------------------------------
+
+        ; Draw control
+        ;>-------------------------------------------------------------------
+        GuiDrawRectangle(*in_bounds, GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH),
+                         Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #BORDER + (state*3))), guiAlpha), #COLOR_BLANK)
+
+        ; Draw slider internal progress bar (depends on state)
+        If state = #GUI_STATE_NORMAL Or state = #GUI_STATE_PRESSED
+            GuiDrawRectangle(@progress, 0, #COLOR_BLANK,
+                             Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #BASE_COLOR_PRESSED)), guiAlpha))
+        ElseIf state = #GUI_STATE_FOCUSED
+            GuiDrawRectangle(@progress, 0, #COLOR_BLANK,
+                             Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT_COLOR_FOCUSED)), guiAlpha))
+        EndIf
+
+        Protected textBounds.Rectangle
+
+        ; Draw left/right text if provided
+        If textLeft
+            textBounds\width  = GetTextWidth(textLeft)              ; TODO: Consider text icon
+            textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
+            textBounds\x = *in_bounds\x - textBounds\width - GuiGetStyle(#PROGRESSBAR, #TEXT_PADDING)
+            textBounds\y = *in_bounds\y + *in_bounds\height/2 - GuiGetStyle(#DEFAULT, #TEXT_SIZE)/2
+
+            GuiDrawText(textLeft, @textBounds, #GUI_TEXT_ALIGN_RIGHT,
+                        Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT + (state*3))), guiAlpha))
+        endif
+
+        if textRight
+            textBounds\width  = GetTextWidth(textRight)             ; TODO: Consider text icon
+            textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
+            textBounds\x = *in_bounds\x + *in_bounds\width + GuiGetStyle(#PROGRESSBAR, #TEXT_PADDING)
+            textBounds\y = *in_bounds\y + *in_bounds\height/2 - GuiGetStyle(#DEFAULT, #TEXT_SIZE)/2
+
+            GuiDrawText(textRight, @textBounds, #GUI_TEXT_ALIGN_LEFT,
+                        Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT + (state*3))), guiAlpha))
+        endif
+        ;>-------------------------------------------------------------------
+
+        procedurereturn value
+    endprocedure
 
 
     ; Status Bar control

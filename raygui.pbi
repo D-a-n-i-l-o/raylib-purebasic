@@ -1208,7 +1208,7 @@ Module raygui
         EndIf
         GuiDrawRectangle(*in_bounds, GuiGetStyle(#SLIDER, #BORDER_WIDTH),
                          Fade(GetColor(GuiGetStyle(#SLIDER, #BORDER + (state*3))), guiAlpha),
-                         Fade(GetColor(GuiGetStyle(SLIDER, colorState)), guiAlpha))
+                         Fade(GetColor(GuiGetStyle(#SLIDER, colorState)), guiAlpha))
 
         ; Draw slider internal bar (depends on state)
         If state = #GUI_STATE_NORMAL Or state = #GUI_STATE_PRESSED
@@ -1275,10 +1275,8 @@ Module raygui
 
         ; Draw control
         ;>-------------------------------------------------------------------
-        GuiDrawRectangle(*in_bounds, GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH),
-                         Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #BORDER + (state*3))), guiAlpha), #COLOR_BLANK)
-
-        ; Draw slider internal progress bar (depends on state)
+        
+        ; Draw progress bar
         If state = #GUI_STATE_NORMAL Or state = #GUI_STATE_PRESSED
             GuiDrawRectangle(@progress, 0, #COLOR_BLANK,
                              Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #BASE_COLOR_PRESSED)), guiAlpha))
@@ -1286,7 +1284,12 @@ Module raygui
             GuiDrawRectangle(@progress, 0, #COLOR_BLANK,
                              Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT_COLOR_FOCUSED)), guiAlpha))
         EndIf
-
+        
+        ; Draw progressbar frame
+        GuiDrawRectangle(*in_bounds, GuiGetStyle(#PROGRESSBAR, #BORDER_WIDTH),
+                         Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #BORDER + (state*3))), guiAlpha), #COLOR_BLANK)
+        
+        
         Protected textBounds.Rectangle
 
         ; Draw left/right text if provided
@@ -1298,9 +1301,9 @@ Module raygui
 
             GuiDrawText(textLeft, @textBounds, #GUI_TEXT_ALIGN_RIGHT,
                         Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT + (state*3))), guiAlpha))
-        endif
+        EndIf
 
-        if textRight
+        If textRight
             textBounds\width  = GetTextWidth(textRight)             ; TODO: Consider text icon
             textBounds\height = GuiGetStyle(#DEFAULT, #TEXT_SIZE)
             textBounds\x = *in_bounds\x + *in_bounds\width + GuiGetStyle(#PROGRESSBAR, #TEXT_PADDING)
@@ -1308,11 +1311,11 @@ Module raygui
 
             GuiDrawText(textRight, @textBounds, #GUI_TEXT_ALIGN_LEFT,
                         Fade(GetColor(GuiGetStyle(#PROGRESSBAR, #TEXT + (state*3))), guiAlpha))
-        endif
+        EndIf
         ;>-------------------------------------------------------------------
 
-        procedurereturn value
-    endprocedure
+        ProcedureReturn value
+    EndProcedure
 
 
     ; Status Bar control
@@ -1378,6 +1381,7 @@ Module raygui
             GuiSetStyle(#LABEL, #TEXT_ALIGNMENT, #GUI_TEXT_ALIGN_LEFT)
             GuiSetStyle(#BUTTON, #BORDER_WIDTH, 2)
             GuiSetStyle(#SLIDER, #TEXT_PADDING, 5)
+            GuiSetStyle(#PROGRESSBAR, #TEXT_PADDING, 5)
             GuiSetStyle(#CHECKBOX, #TEXT_PADDING, 5)
             GuiSetStyle(#CHECKBOX, #TEXT_ALIGNMENT, #GUI_TEXT_ALIGN_RIGHT)
             GuiSetStyle(#TEXTBOX, #TEXT_PADDING, 5)

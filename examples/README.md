@@ -105,6 +105,8 @@ Examples using `raygui` functionality.
 | ## | example  | image  | developer  | new |
 |----|----------|--------|:----------:|:---:|
 |    | [raygui_portable_window](raygui/raygui_portable_window.pb)              | <img src="raygui/screenshots/raygui_portable_window.png" alt="textures_mouse_painting" width="200">            | ray    |     |
-|    | [raygui_buttons](raygui/raygui_buttons.pb)                              | <img src="raygui/screenshots/raygui_buttons.png" alt="textures_mouse_painting" width="200">                    | Danilo |     |
 |    | [raygui_frames](raygui/raygui_frames.pb)                                | <img src="raygui/screenshots/raygui_frames.png" alt="textures_mouse_painting" width="200">                     | Danilo |     |
+|    | [raygui_buttons](raygui/raygui_buttons.pb)                              | <img src="raygui/screenshots/raygui_buttons.png" alt="textures_mouse_painting" width="200">                    | Danilo |     |
+|    | [raygui_checkbox](raygui/raygui_checkbox.pb)                            | <img src="raygui/screenshots/raygui_checkbox.png" alt="textures_mouse_painting" width="200">                   | Danilo |     |
+|    | [raygui_slider_and_progressbar](raygui/raygui_slider_and_progressbar.pb)| <img src="raygui/screenshots/raygui_slider_and_progressbar.png" alt="textures_mouse_painting" width="200">     | Danilo |     |
 |    | [raygui_toggle_and_togglegroup](raygui/raygui_toggle_and_togglegroup.pb)| <img src="raygui/screenshots/raygui_toggle_and_togglegroup.png" alt="textures_mouse_painting" width="200">     | Danilo |     |
